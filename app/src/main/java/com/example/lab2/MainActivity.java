@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     EditText edPhraseInput;
     TextView tvResult;
     TextView textView;
+    int chars_answer = 0;
+    int words_answer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +53,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onBtnClick(View view) {
         if (spCountingOptions.getSelectedItem().toString().trim().equals("Chars")) {
             this.textView.setText("Quantity:");
+            chars_answer = TextCounter.getCharsCount(this.edPhraseInput.getText().toString());
+            if (chars_answer != 0) {
+                this.tvResult.setText(String.valueOf(chars_answer));
+            }
+            else {
+                Toast.makeText(this, "Error! The string is empty, try again.", Toast.LENGTH_SHORT).show();
+            }
             this.tvResult.setText(String.valueOf(TextCounter.getCharsCount(this.edPhraseInput.getText().toString())));
         }
         else if (spCountingOptions.getSelectedItem().toString().trim().equals("Words"))
         {
-            String[] text_string = this.edPhraseInput.getText().toString().split("\\s+");
-            if (text_string != null && text_string.length != 0 && this.edPhraseInput.getText().toString().trim().length() > 0){
-                int text1 = text_string.length;
-                this.textView.setText("Quantity:");
-                this.tvResult.setText(String.valueOf(text1));
+            this.textView.setText("Quantity:");
+            words_answer = TextCounter.getWordsCount(this.edPhraseInput.getText().toString());
+            if (words_answer != 0) {
+                this.tvResult.setText(String.valueOf(words_answer));
             }
-            else
-            {
+            else {
                 Toast.makeText(this, "Error! The string is empty, try again.", Toast.LENGTH_SHORT).show();
             }
         }
